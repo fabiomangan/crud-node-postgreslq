@@ -33,6 +33,20 @@ app.post("/clientes", async (req, res) => {
   res.sendStatus(201);
 });
 
+app.patch("/clientes/:id", async (req, res) => {
+  console.log(req.body);
+
+  await db.updateCustomer(req.params.id, req.body);
+  res.sendStatus(200);
+});
+
+app.delete("/clientes/:id", async (req, res) => {
+  console.log(req.body);
+
+  await db.deleteCustomer(req.params.id);
+  res.sendStatus(204);
+});
+
 app.listen(port, () => {
   console.log(`Backend rodando na porta ${port}!`);
 });

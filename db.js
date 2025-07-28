@@ -29,7 +29,7 @@ async function selectCustomers() {
 async function selectCustomer(id) {
   const client = await connect();
   const res = await client.query("SELECT * FROM clientes WHERE ID=$1", [id]);
-  return res.rows;
+  return res.rows[0];
 }
 
 async function insertCustomer(customer) {
@@ -38,8 +38,22 @@ async function insertCustomer(customer) {
   await client.query(sql, [customer.nome, customer.idade, customer.uf]);
 }
 
+async function updateCustomer(id, customer) {
+  const client = await connect();
+  const sql = "UPDATE clientes SET nome=$1, idade=$2, uf=$3 WHERE id=$4";
+  await client.query(sql, [customer.nome, customer.idade, customer.uf, id]);
+}
+
+async function deleteCustomer(id) {
+  const client = await connect();
+  const sql = "DELETE FROM clientes WHERE id=$1";
+  await client.query(sql, [id]);
+}
+
 module.exports = {
   selectCustomers,
   selectCustomer,
   insertCustomer,
+  updateCustomer,
+  deleteCustomer,
 };
